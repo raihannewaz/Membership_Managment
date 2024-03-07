@@ -5,5 +5,6 @@ namespace Membership_Managment.DAL.Interfaces
 {
     public interface IFeeCollectionRepository:IGenericRepository<FeeCollection>
     {
+        Task<List<FeeCollection>> GetByMemberIdAsync(int memberId);
     }
 }

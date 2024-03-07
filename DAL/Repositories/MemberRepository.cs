@@ -35,7 +35,7 @@ namespace Membership_Managment.DAL.Repositories
 
             entity.CreateDate = DateTime.Now;
             entity.ActivaitonDate = DateTime.Now;
-            entity.ExpDate = DateTime.Now.AddMinutes(1);
+            entity.ExpDate = DateTime.Now.AddYears(1);
             entity.IsActive = true;
             entity.ActionType = "Create";
             entity.ActionDate= DateTime.Now;

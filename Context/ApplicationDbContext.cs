@@ -1,6 +1,7 @@
 ﻿using Membership_Managment.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Membership_Managment.Context
 {
     public class ApplicationDbContext : DbContext
@@ -29,7 +30,6 @@ namespace Membership_Managment.Context
                 .WithOne(m => m.Member)
                 .HasForeignKey(m => m.MemberId)
                 .OnDelete(DeleteBehavior.Cascade);
-
 
 
             modelBuilder.Entity<FeeCollection>()

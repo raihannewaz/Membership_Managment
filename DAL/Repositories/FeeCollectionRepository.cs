@@ -1,6 +1,7 @@
 ﻿using Membership_Managment.Context;
 using Membership_Managment.DAL.Interfaces;
 using Membership_Managment.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Membership_Managment.DAL.Repositories
 {
@@ -13,11 +14,21 @@ namespace Membership_Managment.DAL.Repositories
             _context = context;
         }
 
+
+
         public async Task<FeeCollection> Add(FeeCollection entity)
         {
-            entity.CollectionDate= DateTime.Now;
+            if (entity.Amount <1)
+            {
+                throw new ArgumentException("Ammount is very low");
+            }
+            if (entity.CollectionType == null)
+            {
+                throw new ArgumentException("Collect Type is required");
+            }
+            entity.CollectionDate = DateTime.Now;
 
-            _context.Add(entity);
+            _context.FeeCollections.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
@@ -27,15 +38,26 @@ namespace Membership_Managment.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyList<FeeCollection>> GetAllAsync()
+        public async Task<IReadOnlyList<FeeCollection>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.FeeCollections.Include(a=>a.Member).ToListAsync();
         }
 
-        public Task<FeeCollection> GetByIdAsync(int id)
+        public async Task<FeeCollection> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var a = await _context.FeeCollections.FirstOrDefaultAsync(a=>a.MemberId== id);
+            return a;
         }
+
+        public async Task<List<FeeCollection>> GetByMemberIdAsync(int memberId)
+        {
+            var feeCollections = await _context.FeeCollections
+                .Where(fc => fc.MemberId == memberId)
+                .ToListAsync();
+            return feeCollections;
+        }
+
+
 
         public Task<FeeCollection> Update(int id, FeeCollection entity)
         {

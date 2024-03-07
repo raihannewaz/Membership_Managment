@@ -29,5 +29,6 @@ namespace Membership_Managment.Models
         public IFormFile? ImageFile { get; set; }
 
 
+
     }
 }

@@ -17,7 +17,7 @@ namespace Membership_Managment.MembershipExpService
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromHours(12));
             return Task.CompletedTask;
         }
 

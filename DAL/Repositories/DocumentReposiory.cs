@@ -13,7 +13,7 @@ namespace Membership_Managment.DAL.Repositories
     {
         private ApplicationDbContext _context;
         private IWebHostEnvironment _hostEnvironment;
-        private Document _d = new Document();
+
 
 
         public DocumentReposiory(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
