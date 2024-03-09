@@ -36,6 +36,9 @@ namespace Membership_Managment
             builder.Services.AddScoped(typeof(IDocumentRepository), typeof(DocumentReposiory));
             builder.Services.AddScoped(typeof(IDocumentRepository), typeof(DocumentReposiory));
             builder.Services.AddScoped(typeof(IFeeCollectionRepository), typeof(FeeCollectionRepository));
+            builder.Services.AddScoped(typeof(IPackageRepository), typeof(PackageRepository));
+            builder.Services.AddScoped(typeof(IMemberPackageRepository), typeof(MemberPackageRepository));
+            builder.Services.AddScoped(typeof(IPaymentRepository), typeof(PaymentRepository));
 
 
 

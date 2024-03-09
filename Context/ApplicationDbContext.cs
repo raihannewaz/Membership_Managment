@@ -14,6 +14,10 @@ namespace Membership_Managment.Context
         public DbSet<Member> Members { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<FeeCollection> FeeCollections { get; set; }
+        public DbSet<MemberPackage> MemberPackages { get; set; }
+        public DbSet<Package> Packages { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<DuePayment> DuePayments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +39,18 @@ namespace Membership_Managment.Context
             modelBuilder.Entity<FeeCollection>()
                .Property(m => m.Amount)
                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Payment>()
+               .Property(m => m.Amount)
+               .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Package>()
+                .Property(m => m.PackagePrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<DuePayment>()
+                .Property(m => m.Amount)
+                .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Member>()
                 .Property(m => m.MembershipAmount)

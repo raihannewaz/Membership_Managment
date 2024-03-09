@@ -4,6 +4,7 @@ using Membership_Managment.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Membership_Managment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308041728_PackagePaymentDuePayntMemberPackgeModellAdded")]
+    partial class PackagePaymentDuePayntMemberPackgeModellAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,10 +63,10 @@ namespace Membership_Managment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DuePaymentID"));
 
-                    b.Property<decimal?>("Amount")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("DueDate")
+                    b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("MemberPackageID")
@@ -84,10 +87,10 @@ namespace Membership_Managment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CollectionId"));
 
-                    b.Property<decimal?>("Amount")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("CollectionDate")
+                    b.Property<DateTime>("CollectionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CollectionType")
@@ -136,12 +139,14 @@ namespace Membership_Managment.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PermanentAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Phone")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Photo")
@@ -163,10 +168,10 @@ namespace Membership_Managment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MemberPackageID"));
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("MemberID")
@@ -175,10 +180,10 @@ namespace Membership_Managment.Migrations
                     b.Property<int>("PackageID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("StartDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("MemberPackageID");
@@ -198,19 +203,21 @@ namespace Membership_Managment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PackageId"));
 
-                    b.Property<int?>("Duration")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("PackageName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("PackagePrice")
+                    b.Property<decimal>("PackagePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PaymentType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PackageId");
@@ -226,22 +233,20 @@ namespace Membership_Managment.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
 
-                    b.Property<int>("AdvancePaymentDuration")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Amount")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("MemberPackageID")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("PaidInAdvance")
+                    b.Property<bool>("PaidInAdvance")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentID");
@@ -306,7 +311,7 @@ namespace Membership_Managment.Migrations
             modelBuilder.Entity("Membership_Managment.Models.Payment", b =>
                 {
                     b.HasOne("Membership_Managment.Models.MemberPackage", "MemberPackage")
-                        .WithMany("Payment")
+                        .WithMany("Payments")
                         .HasForeignKey("MemberPackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -327,7 +332,7 @@ namespace Membership_Managment.Migrations
                 {
                     b.Navigation("DuePayment");
 
-                    b.Navigation("Payment");
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("Membership_Managment.Models.Package", b =>

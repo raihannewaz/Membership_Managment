@@ -24,6 +24,7 @@ namespace Membership_Managment.Models
 
         public virtual ICollection<Document>? DocumentList { get; set; }
         public virtual ICollection<FeeCollection>? FeeCollection { get; set; }
+        public virtual ICollection<MemberPackage>? MemberPackage { get; set; }
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
