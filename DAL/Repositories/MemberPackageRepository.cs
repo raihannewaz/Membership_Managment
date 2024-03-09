@@ -49,7 +49,7 @@ namespace Membership_Managment.DAL.Repositories
             };
 
             _context.Payments.Add(payment);
-            //await _context.SaveChangesAsync();
+
 
             
             entity.IsActive = true; 
@@ -86,5 +86,29 @@ namespace Membership_Managment.DAL.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public async Task<List<MemberPackage>> GetDueMemberPackagesAsync()
+        {
+    
+            var currentDate = DateTime.Now;
+
+            var dueMemberPackages = await _context.MemberPackages
+                .Include(mp => mp.Package)
+                .Where(mp => mp.EndDate < currentDate && !_context.Payments.Any(p => p.MemberPackageID == mp.MemberPackageID && p.PaymentDate.Date == currentDate.Date))
+                .ToListAsync();
+
+            return dueMemberPackages;
+
+
+
+                //var dueMemberPackages = await _context.MemberPackages
+                //    .Include(mp => mp.Package)
+                //    .Where(mp => mp.EndDate < currentDate && !mp.IsActive)
+                //    .ToListAsync();
+
+        }
+
+
     }
 }

@@ -16,5 +16,6 @@ namespace Membership_Managment.Models
         public string? PaymentType { get; set; }
         public int AdvancePaymentDuration { get; set; }
         public bool? PaidInAdvance { get; set; }
+        public decimal? ActualAmount { get; set; }
     }
 }

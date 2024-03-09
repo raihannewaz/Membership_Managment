@@ -1,5 +1,6 @@
 
 using Membership_Management.DAL.Interfaces;
+using Membership_Managment.AutoDatabaseUpdateService;
 using Membership_Managment.Context;
 using Membership_Managment.DAL.Interfaces;
 using Membership_Managment.DAL.Repositories;
@@ -28,6 +29,7 @@ namespace Membership_Managment
 
 
             builder.Services.AddHostedService<MembershipExpirationService>();
+            builder.Services.AddHostedService<DuePaymentUpdateService>();
 
 
 
@@ -39,6 +41,7 @@ namespace Membership_Managment
             builder.Services.AddScoped(typeof(IPackageRepository), typeof(PackageRepository));
             builder.Services.AddScoped(typeof(IMemberPackageRepository), typeof(MemberPackageRepository));
             builder.Services.AddScoped(typeof(IPaymentRepository), typeof(PaymentRepository));
+            builder.Services.AddScoped(typeof(IDuePaymentRepository), typeof(DuePaymentRepository));
 
 
 
