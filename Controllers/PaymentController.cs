@@ -28,5 +28,33 @@ namespace Membership_Managment.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCollectedFee()
+        {
+            try
+            {
+                var a = await _payRepo.GetAllAsync();
+                return Ok(a);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            try
+            {
+                var feeCollections = await _payRepo.GetByMemberIdAsync(id);
+                return Ok(feeCollections);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

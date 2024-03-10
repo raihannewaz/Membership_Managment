@@ -39,7 +39,7 @@ namespace Membership_Managment.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var a = await _mPackRepo.GetByIdAsync(id);
+            var a = await _mPackRepo.GetByMemberIdAsync(id);
             return Ok(a);
         }
 
@@ -54,5 +54,8 @@ namespace Membership_Managment.Controllers
             }
             return BadRequest("Id Not Found");
         }
+
+
+
     }
 }

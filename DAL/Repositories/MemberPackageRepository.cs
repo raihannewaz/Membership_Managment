@@ -109,6 +109,10 @@ namespace Membership_Managment.DAL.Repositories
 
         }
 
-
+        public async Task<List<MemberPackage>> GetByMemberIdAsync(int memberId)
+        {
+            var memberpackgs = await _context.MemberPackages.Where(fc => fc.MemberID == memberId).ToListAsync();
+            return memberpackgs; ;
+        }
     }
 }

@@ -7,6 +7,8 @@ namespace Membership_Managment.DAL.Interfaces
     public interface IMemberPackageRepository:IGenericRepository<MemberPackage>
     {
         Task<List<MemberPackage>> GetDueMemberPackagesAsync();
-        
+        Task<List<MemberPackage>> GetByMemberIdAsync(int memberId);
+
+
     }
 }

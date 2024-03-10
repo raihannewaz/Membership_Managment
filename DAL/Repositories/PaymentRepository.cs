@@ -145,19 +145,28 @@ namespace Membership_Managment.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IReadOnlyList<Payment>> GetAllAsync()
+        public async Task<IReadOnlyList<Payment>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return await _context.Payments.Include(a=>a.MemberPackage).ToListAsync();
         }
 
-        public Task<Payment> GetByIdAsync(int id)
+        public async Task<Payment> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Payments.FirstOrDefaultAsync(a => a.MemberPackage.MemberID == id);
+
         }
 
         public Task<Payment> Update(int id, Payment entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Payment>> GetByMemberIdAsync(int memberId)
+        {
+            var feeCollections = await _context.Payments
+                .Where(fc => fc.MemberPackage.MemberID == memberId)
+                .ToListAsync();
+            return feeCollections;
         }
     }
 }
