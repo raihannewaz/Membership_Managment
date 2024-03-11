@@ -81,7 +81,7 @@ namespace Membership_Managment.DAL.Repositories
                 var duePayment = await _context.DuePayments.FirstOrDefaultAsync(dp => dp.MemberPackageID == entity.MemberPackageID);
                 if (duePayment != null)
                 {
-                    
+
                     UpdateDuePayment(duePayment, (decimal)entity.ActualAmount);
 
                     AdjustMemberPackageEndDate(memberPackage, (decimal)entity.ActualAmount);
@@ -114,7 +114,7 @@ namespace Membership_Managment.DAL.Repositories
 
         private void UpdateDuePayment(DuePayment duePayment, decimal actualAmount)
         {
-         
+
             decimal remainingDue = (decimal)(duePayment.Amount - actualAmount);
             if (remainingDue <= 0)
             {
@@ -147,8 +147,10 @@ namespace Membership_Managment.DAL.Repositories
 
         public async Task<IReadOnlyList<Payment>> GetAllAsync()
         {
-           return await _context.Payments.Include(a=>a.MemberPackage).ToListAsync();
+            return await _context.Payments.Include(a => a.MemberPackage).ToListAsync();
         }
+
+
 
         public async Task<Payment> GetByIdAsync(int id)
         {
@@ -168,5 +170,47 @@ namespace Membership_Managment.DAL.Repositories
                 .ToListAsync();
             return feeCollections;
         }
+
+
+
+
+
+
+        public async Task<List<(string Name, string PackageName, DateTime NextPaymentDate)>> GetNextPaymentDates()
+        {
+            var nextPaymentDates = await (
+                from memberPackage in _context.MemberPackages
+                join package in _context.Packages on memberPackage.PackageID equals package.PackageId
+                join payment in _context.Payments on memberPackage.MemberPackageID equals payment.MemberPackageID into memberPayments
+                from mp in memberPayments.DefaultIfEmpty()
+                where mp.PaymentDate == null || mp.PaymentDate < DateTime.Now
+                select new
+                {
+                    memberPackage.Member.Name,
+                    package.PackageName,
+                    NextPaymentDate = mp == null ? mp.PaymentDate : mp.PaymentDate.AddDays(1)
+                }
+            ).ToListAsync();
+
+            return nextPaymentDates.Select(x => (x.Name, x.PackageName, x.NextPaymentDate)).ToList();
+        }
+
+
+
+
+        public async Task<DateTime?> GetNextPaymentDateByMemberId(int memberId)
+        {
+            var nextPaymentDate = await (
+                from memberPackage in _context.MemberPackages
+                join package in _context.Packages on memberPackage.PackageID equals package.PackageId
+                join payment in _context.Payments on memberPackage.MemberPackageID equals payment.MemberPackageID into memberPayments
+                from mp in memberPayments.DefaultIfEmpty()
+                where memberPackage.MemberID == memberId && (mp.PaymentDate == null || mp.PaymentDate < DateTime.Now)
+                select mp == null ? mp.PaymentDate : mp.PaymentDate.AddDays(1)
+            ).FirstOrDefaultAsync();
+
+            return nextPaymentDate;
+        }
+
     }
 }

@@ -39,23 +39,10 @@ namespace Membership_Managment.DAL.Repositories
             }
 
             
-            var payment = new Payment
-            {
-                Amount = paymentAmount,
-                PaymentDate = DateTime.Now,
-                PaymentType = package.PaymentType,
-                PaidInAdvance = false,
-                MemberPackage = entity,
-            };
-
-            _context.Payments.Add(payment);
-
-
-            
+ 
             entity.IsActive = true; 
             entity.StartDate = DateTime.Now; 
             entity.EndDate = DateTime.Now.AddDays(Convert.ToDouble(package.Duration));
-            entity.Payment.Add(payment);
 
             _context.MemberPackages.Add(entity);
             await _context.SaveChangesAsync();

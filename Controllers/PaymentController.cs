@@ -1,4 +1,5 @@
 ﻿using Membership_Managment.DAL.Interfaces;
+using Membership_Managment.DAL.Repositories;
 using Membership_Managment.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Membership_Managment.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(Payment entity)
+        public async Task<IActionResult> Add([FromForm]Payment entity)
         {
             if (ModelState.IsValid)
             {
@@ -56,5 +57,35 @@ namespace Membership_Managment.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpGet("nextPaymentDates")]
+        public async Task<IActionResult> GetNextPaymentDates()
+        {
+            var nextPaymentDates = await _payRepo.GetNextPaymentDates();
+            return Ok(nextPaymentDates);
+        }
+
+        [HttpGet("next-payment/{memberId}")]
+        public async Task<ActionResult<DateTime?>> GetNextPaymentDate(int memberId)
+        {
+            try
+            {
+                var nextPaymentDate = await _payRepo.GetNextPaymentDateByMemberId(memberId);
+
+                if (nextPaymentDate != null)
+                {
+                    return Ok(nextPaymentDate);
+                }
+                else
+                {
+                    return NotFound("No next payment date found for the member.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }

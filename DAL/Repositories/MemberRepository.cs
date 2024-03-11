@@ -55,12 +55,12 @@ namespace Membership_Managment.DAL.Repositories
         public async Task<IReadOnlyList<Member>> GetAllAsync()
         {
 
-            return await _context.Members.Include(m => m.DocumentList).Include(a=>a.FeeCollection).ToListAsync();
+            return await _context.Members.Include(m => m.DocumentList).ToListAsync();
         }
 
         public async Task<Member> GetByIdAsync(int id)
         {
-            return await _context.Members.Include(m => m.DocumentList).Include(a=>a.FeeCollection).FirstOrDefaultAsync(o => o.MemberId == id);
+            return await _context.Members.Include(m => m.DocumentList).FirstOrDefaultAsync(o => o.MemberId == id);
         }
 
 
@@ -76,7 +76,7 @@ namespace Membership_Managment.DAL.Repositories
             if (entity.IsActive == true)
             {
                 existingEntity.ActivaitonDate = DateTime.Now;
-                existingEntity.ExpDate = DateTime.Now.AddMinutes(1);
+                existingEntity.ExpDate = DateTime.Now.AddYears(5);
             }
 
            
@@ -155,7 +155,13 @@ namespace Membership_Managment.DAL.Repositories
         }
 
 
-     
 
+
+        public async Task<IReadOnlyList<Member>> GetAllMembersWithPackages()
+        {
+           return await _context.Members.Include(m => m.MemberPackage).ToListAsync();
+
+
+        }
     }
 }

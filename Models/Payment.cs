@@ -5,6 +5,7 @@ namespace Membership_Managment.Models
 {
     public class Payment
     {
+        [Key]
         public int PaymentID { get; set; }
         public int MemberPackageID { get; set; }
         [JsonIgnore]

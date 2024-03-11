@@ -71,6 +71,11 @@ namespace Membership_Managment.Controllers
             return BadRequest();
         }
 
-
+        [HttpGet("/member-with-package")]
+        public  async Task<IActionResult> GetWithPack()
+        {
+            var a = await  _memberRepository.GetAllMembersWithPackages();
+           return Ok(a);
+        }
     }
 }
